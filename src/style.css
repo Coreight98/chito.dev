@@ -180,6 +180,11 @@ body {
   filter: url(#goo);
   z-index: 20;
   pointer-events: none;
+  animation: goo-fade 0.4s 0.4s ease forwards;
+}
+
+@keyframes goo-fade {
+  to { opacity: 0; }
 }
 
 .goo-dot {
@@ -187,15 +192,16 @@ body {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.9);
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.95), rgba(200,210,230,0.85));
   transform: translate(0, -50%);
   animation: dot-life 0.45s ease forwards;
 }
 
 @keyframes dot-life {
   0% { transform: translate(0, -50%) scale(1); }
-  40% { transform: translate(10px, -50%) scale(0.7); }
-  100% { transform: translate(16px, -50%) scale(0); opacity: 0; }
+  25% { transform: translate(6px, -50%) scale(0.8); }
+  55% { transform: translate(14px, -50%) scale(0.2); opacity: 0.3; }
+  100% { transform: translate(18px, -50%) scale(0); opacity: 0; }
 }
 
 .goo-card {
@@ -203,36 +209,95 @@ body {
   width: 240px;
   height: 160px;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.9);
-  overflow: hidden;
+  background: linear-gradient(155deg, rgba(255,255,255,0.5) 0%, rgba(200,210,230,0.85) 35%, rgba(180,190,210,0.9) 100%);
   transform-origin: left center;
   animation: card-grow 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 @keyframes card-grow {
-  0% { transform: translate(-24px, -50%) scaleX(0.04) scaleY(0.15); border-radius: 50%; }
-  20% { transform: translate(-14px, -50%) scaleX(0.1) scaleY(0.22); border-radius: 50%; }
-  45% { transform: translate(-4px, -50%) scaleX(0.4) scaleY(0.6); border-radius: 30%; }
+  0% { transform: translate(-28px, -50%) scaleX(0.04) scaleY(0.12); border-radius: 50%; }
+  15% { transform: translate(-20px, -50%) scaleX(0.1) scaleY(0.15); border-radius: 50%; }
+  35% { transform: translate(-8px, -50%) scaleX(0.3) scaleY(0.28); border-radius: 40%; }
+  60% { transform: translate(-2px, -50%) scaleX(0.65) scaleY(0.65); border-radius: 22%; }
   100% { transform: translate(0, -50%) scale(1); border-radius: 16px; }
 }
 
-.goo-card iframe {
-  width: 1200px;
-  height: 800px;
-  transform: scale(0.2);
-  transform-origin: top left;
-  border: none;
+.glass-content {
+  position: fixed;
+  width: 240px;
+  height: 160px;
+  transform: translate(0, -50%);
+  z-index: 21;
   pointer-events: none;
+  border-radius: 16px;
+  background: linear-gradient(155deg,
+    rgba(255,255,255,0.1) 0%,
+    rgba(255,255,255,0.04) 50%,
+    rgba(255,255,255,0.06) 100%
+  );
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.13);
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.45),
+    0 2px 8px rgba(0,0,0,0.2),
+    inset 0 1px 1px rgba(255,255,255,0.12),
+    inset 0 -1px 2px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  overflow: hidden;
   opacity: 0;
-  animation: iframe-fade 0.5s 0.3s ease forwards;
+  animation: glass-in 0.35s 0.38s ease forwards;
 }
 
-@keyframes iframe-fade {
+.glass-content::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 55%;
+  background: linear-gradient(180deg,
+    rgba(255,255,255,0.09) 0%,
+    transparent 100%
+  );
+  border-radius: 16px 16px 0 0;
+  pointer-events: none;
+}
+
+@keyframes glass-in {
   to { opacity: 1; }
 }
 
+.glass-emoji { font-size: 2rem; }
+
+.glass-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.glass-desc {
+  font-size: 0.7rem;
+  color: var(--dim);
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  text-align: center;
+  padding: 0 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.glass-link {
+  font-size: 0.65rem;
+  color: var(--accent);
+  text-decoration: none;
+}
+
 @media (max-width: 900px) {
-  .goo-wrap { display: none; }
+  .goo-wrap, .glass-content { display: none; }
 }
 
 @media (max-width: 480px) {

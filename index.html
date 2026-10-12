@@ -18,10 +18,38 @@
   <body>
     <svg style="position:absolute;width:0;height:0">
       <defs>
-        <filter id="goo">
+        <filter id="goo" color-interpolation-filters="sRGB" x="-25%" y="-25%" width="150%" height="150%">
+          <!-- 1. goo merge -->
           <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
           <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo"/>
-          <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+          <feComposite in="SourceGraphic" in2="goo" operator="atop" result="shape"/>
+          <!-- 2. darken body -->
+          <feColorMatrix in="shape" type="matrix"
+            values="0.12 0 0 0 0.03  0.12 0 0 0 0.03  0.13 0 0 0 0.04  0 0 0 0.94 0" result="body"/>
+          <!-- 3. specular highlight for 3D glass -->
+          <feSpecularLighting in="blur" surfaceScale="4" specularConstant="0.75" specularExponent="20" lighting-color="#ffffff" result="spec">
+            <fePointLight x="-80" y="-60" z="120"/>
+          </feSpecularLighting>
+          <feComposite in="spec" in2="goo" operator="in" result="specClip"/>
+          <feColorMatrix in="specClip" type="matrix"
+            values="1 0 0 0 0  1 0 0 0 0  1 0 0 0 0  0 0 0 0.35 0" result="specFade"/>
+          <!-- 4. edge border -->
+          <feMorphology in="goo" operator="erode" radius="0.6" result="inner"/>
+          <feComposite in="goo" in2="inner" operator="out" result="edge"/>
+          <feColorMatrix in="edge" type="matrix"
+            values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.22 0" result="border"/>
+          <!-- 5. shadow -->
+          <feGaussianBlur in="goo" stdDeviation="10" result="shblur"/>
+          <feOffset in="shblur" dy="6" result="shoff"/>
+          <feColorMatrix in="shoff" type="matrix"
+            values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.4 0" result="shadow"/>
+          <!-- 6. compose -->
+          <feMerge>
+            <feMergeNode in="shadow"/>
+            <feMergeNode in="body"/>
+            <feMergeNode in="specFade"/>
+            <feMergeNode in="border"/>
+          </feMerge>
         </filter>
       </defs>
     </svg>

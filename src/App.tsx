@@ -11,15 +11,22 @@ const projects: { name: ProjectKey; emoji: string; url: string }[] = [
   { name: "poke10", emoji: "⚡", url: "https://poke10.chito.dev" },
 ];
 
-const [preview, setPreview] = createSignal<{ url: string; x: number; y: number } | null>(null);
+const [preview, setPreview] = createSignal<{
+  name: ProjectKey; emoji: string; url: string;
+  x: number; y: number;
+  rowLeft: number; rowTop: number; rowW: number; rowH: number;
+} | null>(null);
 
 let hoverTimer: number;
 
-function showPreview(e: MouseEvent, url: string) {
+function showPreview(e: MouseEvent, proj: typeof projects[0]) {
   clearTimeout(hoverTimer);
   const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
   hoverTimer = window.setTimeout(() => {
-    setPreview({ url, x: rect.right + 12, y: rect.top + rect.height / 2 });
+    setPreview({
+      ...proj, x: rect.right + 8, y: rect.top + rect.height / 2,
+      rowLeft: rect.left, rowTop: rect.top, rowW: rect.width, rowH: rect.height,
+    });
   }, 300);
 }
 
@@ -35,7 +42,7 @@ function Item(props: { name: ProjectKey; emoji: string; url: string; i: number }
       <button
         class="row"
         onClick={() => setOpen(!open())}
-        onMouseEnter={(e) => showPreview(e, props.url)}
+        onMouseEnter={(e) => showPreview(e, { name: props.name, emoji: props.emoji, url: props.url })}
         onMouseLeave={hidePreview}
       >
         <span class="chevron" classList={{ open: open() }}>›</span>
@@ -74,7 +81,7 @@ export default function App() {
             {(p, i) => <Item {...p} i={i()} />}
           </For>
           <div class="footer">
-            <a href="https://github.com/Coreight98" target="_blank" rel="noopener noreferrer">github.com/Coreight98</a>
+            <a href="https://chito.dev/playground" target="_blank" rel="noopener noreferrer">made by chito.dev</a>
           </div>
         </div>
       </div>
@@ -84,12 +91,18 @@ export default function App() {
           const y = () => p().y;
           const url = () => p().url;
           return (
-            <div class="goo-wrap">
-              <div class="goo-dot" style={{ left: `${x() - 24}px`, top: `${y()}px` }} />
-              <div class="goo-card" style={{ left: `${x()}px`, top: `${y()}px` }}>
-                <iframe src={url()} />
+            <>
+              <div class="goo-wrap">
+                <div class="goo-dot" style={{ left: `${p().rowLeft + p().rowW - 20}px`, top: `${y()}px` }} />
+                <div class="goo-card" style={{ left: `${x()}px`, top: `${y()}px` }} />
               </div>
-            </div>
+              <div class="glass-content" style={{ left: `${x()}px`, top: `${y()}px` }}>
+                <span class="glass-emoji">{p().emoji}</span>
+                <span class="glass-name">{p().name}</span>
+                <span class="glass-desc">{tt().projects[p().name]}</span>
+                <a class="glass-link" href={url()} target="_blank" rel="noopener noreferrer">{p().name}.chito.dev ↗</a>
+              </div>
+            </>
           );
         }}
       </Show>
