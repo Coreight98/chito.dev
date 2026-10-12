@@ -14,16 +14,15 @@ body {
   background: var(--bg);
   color: var(--text);
   min-height: 100dvh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
 }
 
-#root { width: 100%; min-height: 100dvh; display: flex; align-items: center; justify-content: center; }
-
 .shell {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 420px;
-  margin: 16px;
   border: 1px solid var(--border);
   border-radius: 12px;
   overflow: hidden;
@@ -303,6 +302,5 @@ body {
 }
 
 @media (max-width: 480px) {
-  body { align-items: flex-start; }
-  .shell { width: 100%; margin: 0; border-radius: 0; border: none; min-height: 100dvh; }
+  .shell { top: 0; left: 0; transform: none; width: 100%; border-radius: 0; border: none; min-height: 100dvh; }
 }
