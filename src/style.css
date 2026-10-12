@@ -19,6 +19,8 @@ body {
   justify-content: center;
 }
 
+#root { width: 100%; display: flex; align-items: center; justify-content: center; }
+
 .shell {
   width: 420px;
   margin: 16px;
