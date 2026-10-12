@@ -302,5 +302,5 @@ body {
 }
 
 @media (max-width: 480px) {
-  .shell { top: 0; left: 0; transform: none; width: 100%; border-radius: 0; border: none; min-height: 100dvh; }
+  .shell { width: calc(100% - 32px); }
 }
