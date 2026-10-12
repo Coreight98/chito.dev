@@ -19,7 +19,7 @@ body {
   justify-content: center;
 }
 
-#root { width: 100%; display: flex; align-items: center; justify-content: center; }
+#root { width: 100%; min-height: 100dvh; display: flex; align-items: center; justify-content: center; }
 
 .shell {
   width: 420px;
