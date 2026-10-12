@@ -79,14 +79,19 @@ export default function App() {
         </div>
       </div>
       <Show when={preview()}>
-        {(p) => (
-          <div
-            class="preview"
-            style={{ left: `${p().x}px`, top: `${p().y}px` }}
-          >
-            <iframe src={p().url} />
-          </div>
-        )}
+        {(p) => {
+          const x = () => p().x;
+          const y = () => p().y;
+          const url = () => p().url;
+          return (
+            <div class="goo-wrap">
+              <div class="goo-dot" style={{ left: `${x() - 24}px`, top: `${y()}px` }} />
+              <div class="goo-card" style={{ left: `${x()}px`, top: `${y()}px` }}>
+                <iframe src={url()} />
+              </div>
+            </div>
+          );
+        }}
       </Show>
     </>
   );
