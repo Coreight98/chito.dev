@@ -1,4 +1,9 @@
 {
+  "rewrites": [
+    { "source": "/playground/assets/:path*", "destination": "/assets/:path*" },
+    { "source": "/playground", "destination": "/index.html" },
+    { "source": "/playground/", "destination": "/index.html" }
+  ],
   "redirects": [
     { "source": "/", "destination": "/playground/", "permanent": false }
   ]
