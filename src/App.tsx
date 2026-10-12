@@ -1,4 +1,4 @@
-import { For, createSignal } from "solid-js";
+import { For, Show, createSignal } from "solid-js";
 import { locale, setLocale, locales, tt } from "./i18n";
 
 type ProjectKey = "distillery" | "yeogi" | "gorani" | "subway" | "poke10";
@@ -11,11 +11,33 @@ const projects: { name: ProjectKey; emoji: string; url: string }[] = [
   { name: "poke10", emoji: "⚡", url: "https://poke10.chito.dev" },
 ];
 
+const [preview, setPreview] = createSignal<{ url: string; x: number; y: number } | null>(null);
+
+let hoverTimer: number;
+
+function showPreview(e: MouseEvent, url: string) {
+  clearTimeout(hoverTimer);
+  const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+  hoverTimer = window.setTimeout(() => {
+    setPreview({ url, x: rect.right + 12, y: rect.top + rect.height / 2 });
+  }, 300);
+}
+
+function hidePreview() {
+  clearTimeout(hoverTimer);
+  setPreview(null);
+}
+
 function Item(props: { name: ProjectKey; emoji: string; url: string; i: number }) {
   const [open, setOpen] = createSignal(false);
   return (
     <div class="item" style={{ "--i": props.i }}>
-      <button class="row" onClick={() => setOpen(!open())}>
+      <button
+        class="row"
+        onClick={() => setOpen(!open())}
+        onMouseEnter={(e) => showPreview(e, props.url)}
+        onMouseLeave={hidePreview}
+      >
         <span class="chevron" classList={{ open: open() }}>›</span>
         <span class="emoji">{props.emoji}</span>
         <span class="name">{props.name}</span>
@@ -56,6 +78,16 @@ export default function App() {
           </div>
         </div>
       </div>
+      <Show when={preview()}>
+        {(p) => (
+          <div
+            class="preview"
+            style={{ left: `${p().x}px`, top: `${p().y}px` }}
+          >
+            <iframe src={p().url} />
+          </div>
+        )}
+      </Show>
     </>
   );
 }
