@@ -1,7 +1,7 @@
 import { For, Show, createSignal } from "solid-js";
 import { locale, setLocale, locales, tt } from "./i18n";
 
-type ProjectKey = "distillery" | "yeogi" | "gorani" | "subway" | "poke10";
+type ProjectKey = "distillery" | "yeogi" | "gorani" | "subway" | "poke10" | "angle";
 
 const projects: { name: ProjectKey; emoji: string; url: string }[] = [
   { name: "distillery", emoji: "🥃", url: "https://distillery.chito.dev" },
@@ -9,6 +9,7 @@ const projects: { name: ProjectKey; emoji: string; url: string }[] = [
   { name: "gorani", emoji: "🎨", url: "https://gorani.chito.dev" },
   { name: "subway", emoji: "🚇", url: "https://subway.chito.dev" },
   { name: "poke10", emoji: "⚡", url: "https://poke10.chito.dev" },
+  { name: "angle", emoji: "📐", url: "https://angle.chito.dev" },
 ];
 
 const [preview, setPreview] = createSignal<{

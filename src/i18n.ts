@@ -15,6 +15,7 @@ const t = {
       gorani: "고라니 심리 테스트",
       subway: "한국 지하철 맞추기",
       poke10: "포켓몬 10고개",
+      angle: "책 펼쳐 각도 맞추기",
     },
   },
   en: {
@@ -26,6 +27,7 @@ const t = {
       gorani: "Gorani personality test",
       subway: "Guess the Korean subway station",
       poke10: "Pokémon 10 questions",
+      angle: "Open the book to the given angle",
     },
   },
   zh: {
@@ -37,6 +39,7 @@ const t = {
       gorani: "水鹿心理测试",
       subway: "猜韩国地铁站",
       poke10: "口袋妖怪10问",
+      angle: "翻开书本对准角度",
     },
   },
   ja: {
@@ -48,6 +51,7 @@ const t = {
       gorani: "コラニ性格テスト",
       subway: "韓国地下鉄クイズ",
       poke10: "ポケモン10問クイズ",
+      angle: "本を開いて角度を当てる",
     },
   },
 } as const;
